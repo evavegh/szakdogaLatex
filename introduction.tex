@@ -2,7 +2,7 @@
 \chapter*{Bevezetõ}\addcontentsline{toc}{chapter}{Bevezetõ}
 %----------------------------------------------------------------------------
 
-\section*{A feladat értelmezése}\addcontentsline{toc}{section}{A feladat értelmezése}
+\section*{A feladat értelmezése, a tervezés célja}\addcontentsline{toc}{section}{A feladat értelmezése}
 %----------------------------------------------------------------------------
 Napjainkban a technológia, a különbözõ elektronikus eszközök egyre nagyobb szerepet játszanak életünk különféle területein. A napi munka mellett segíthetnek a maradék szabadidõnk hasznos eltöltésében, egy-egy pihentetõ, kulturális vagy szórakoztató program megszervezésében.
 
@@ -39,6 +39,35 @@ A bevezetõ szokás szerint a diplomaterv felépítésével záródik, azaz annak rövid 
 
 \section*{A feladatkiírás pontosítása és részletes elemzése}\addcontentsline{toc}{section}{A feladatkiírás pontosítása és részletes elemzése}
 %----------------------------------------------------------------------------
+A szakdolgozatban tárgyalt projekt célja egy olyan webalkalmazás, illetve egy ehhez tartozó Android alkalmazás elkészítése, ami az elõzõ szakaszban felsorolt problémákra nyújt korszerû megoldást.
+
+Az elkészült projekt négy részre tagolható: a kliens oldal kéréseit kiszolgáló szerver oldalra, az Android alkalmazásra, a kliens oldal adminisztrációs felületére, illetve a kliens oldal "kliens" felületére, ami a publikus funkciókat biztosítja.
+
+\subsection*{Az adminisztrációs felület}
+%----------------------------------------------------------------------------
+Az adminisztrációs felület egy olyan webalkalmazás, ami lehetõvé teszi, hogy saját programokat vehessünk fel az adatbázisba, amit az Android alkalmazás használ. Két jogosultságot különböztetünk meg, az admint és a szuperadmint.
+
+Az admin bejelentkezés után megtekintheti a korábban létrehozott eseményeit listanézetben. Az egyes eseményeket törölheti vagy megnyithatja a szerkesztés módot, ahol egy ûrlapon módosíthatja a program adatait, majd elmentheti a változásokat. Létrehozhat új eseményt is, amit a szerkesztéshez hasonlóan egy ûrlap kitöltésével tehet meg. Itt a következõ adatok beállítására van lehetõség:
+
+//TODO list
+esemény neve
+helyszín
+rövid összefoglaló leírás
+hosszú leírás
+kezdés idõpontja
+befejezés idõpontja
+belépõ
+kategória
+honlap URL
+Facebook URL
+
+A szuperadmin mindent megtehet, amit az admin, azzal a különbséggel, hogy õ az összes admin által létrehozott eseményhez hozzáfér, és módosíthatja, törölheti azokat.
+
+\subsection*{A kliens felület}
+%----------------------------------------------------------------------------
+A kliens felület az Android alkalmazás webes megfelelõje. A felhasználó kilistázhatja a programokat, kereshet helyszín, idõpont, programtípus vagy kulcsszó alapján. Adott eseményre kattintva megjelennek a részletes adatok, illetve térképen az esemény helyszíne.
+
+Regisztráció után a felhasználó ?megcsillagozhat?, elmenthet eseményeket, amiket így késõbb könnyen megtalálhat, illetve email értesítést kaphat róluk.
 
 \section*{Elõzmények, létezõ megoldások}\addcontentsline{toc}{section}{Elõzmények, létezõ megoldások}
 %----------------------------------------------------------------------------
