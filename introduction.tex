@@ -8,7 +8,11 @@ Napjainkban a technológia, a különbözõ elektronikus eszközök egyre nagyobb szere
 
 Az utóbbi években egyre jobban nõtt a szórakoztatóipar kínálata, így rengeteg választási lehetõségünk van a kikapcsolódásra. Egy nap kellemes eltöltésének megszervezése azonban nem mindig egyszerû: egy adott idõpontban lévõ, megfelelõ típusú program megtalálásához gyakran több Google-keresés, különbözõ honlapok megtekintése, Facebook események keresgélése szükséges, és ekkor sem feltétlen kapunk átfogó képet a lehetõségeinkrõl.
 
-Léteznek honlapok, szolgáltatások, amik egy-egy közös platformot biztosítanak az események egységes formában való megjelenítésére, de ezeknél több probléma is fellép.
+Léteznek honlapok, szolgáltatások, amik egy-egy közös platformot biztosítanak az események egységes formában való megjelenítésére, de ezeknél több probléma is fellép, ami megnehezíti használatukat.
+
+
+\section*{Létezõ megoldások}\addcontentsline{toc}{section}{Elõzmények, létezõ megoldások}
+%----------------------------------------------------------------------------
 
 Ilyen például a magyar port.hu, a lobu.hu, a programturizmus.hu stb., ezekkel a következõ problémák merülnek fel: 
 
@@ -20,55 +24,16 @@ A legígéretesebbnek a https://welovebudapest.com tûnt, ami elérhetõ angol nyelve
 Külföldi oldalak közt több ígéretes is akadt, például az eventful.com, ami Android alkalmazást is nyújt, de ez érthetõ módon nem nyújt túl sok lehetõséget egy magyar felhasználó számára.
 
 A Google Play Store-ban keresgélve még kevesebb magyar felhasználó által használható alkalmazást találunk, ezért úgy tûnik, hogy lenne igény egy olyan webalkalmazásra, illetve egy ehhez tartozó Android alkalmazás elkészítésére, ami az eddigiekben felsorolt problémákra nyújt korszerû megoldást.
-//TODO felsorolás vége
+//TODO felsorolás vége\\
 
-Az elkészítendõ alkalmazáshoz tartozik egy adminisztratív felület, ahol az arra jogosult programszervezõk létrehozhatnak eseményeket, majd szerkeszthetik, törölhetik azokat.
 
-A programok publikus megjelenítésére a webalkalmazás, illetve az Android alkalmazás ad lehetõséget: 
+Az elsõ szakaszban leírt problémákra nyújt korszerû megoldást a szakdolgozatban tárgyalt projekt. Ugyan az alkalmazás által nyújtott funkciók nagy mértékben megegyeznek az elõbbiekben felsorolt már létezõ szolgáltatások funkcióival, úgy gondolom, ez nem probléma, hiszen a magyar szolgáltatások funkcióit mindenképpen bõvíti az új alkalmazás, és úgy érzem, a korábbi megoldások elõnyeibõl és hibáiból tanulva tudtam valamivel többet nyújtani.
+Például nagy elõrehaladásnak érzem a már létezõ szolgáltatásokhoz képest a többnyelvûség támogatását, mivel az Android alkalmazás már magyarul és angolul is elérhetõ, és a webalkalmazások is könnyen bõvíthetõek.
 
-//TODO felsorolás
-az admin felületen létrehozott események listázhatóak, megtekinthetõ a részletes, illetve a térképes nézetük. Kereshetõek dátum, helyszín, kulcsszó, illetve programtípus alapján.
-Az elmentett alkalmazásokról értesítés érkezik email vagy Android értesítés formájában.
-
-Látható, hogy az alkalmazás által nyújtott funkciók nagy mértékben megegyeznek néhány már létezõ szolgáltatás funkcióival.
-Úgy gondolom, ez nem probléma, hiszen a magyar szolgáltatások funkcióit mindenképpen bõvíti az új alkalmazás, és úgy érzem, a korábbi megoldások elõnyeibõl és hibáiból tanulva tudtam valamivel többet nyújtani, például a többnyelvûség szempontjából, mivel az Android alkalmazás támogatja a többnyelvûséget (egyel?re magyarul és angolul elérhetõ), és a webalkalmazások is könnyen bõvíthetõek.
-
-A bevezetõ tartalmazza a diplomaterv-kiírás elemzését, történelmi elõzményeit, a feladat indokoltságát (a motiváció leírását), az eddigi megoldásokat, és ennek tükrében a hallgató megoldásának összefoglalását.
-
-A bevezetõ szokás szerint a diplomaterv felépítésével záródik, azaz annak rövid leírásával, hogy melyik fejezet mivel foglalkozik.
-
-\section*{A feladatkiírás pontosítása és részletes elemzése}\addcontentsline{toc}{section}{A feladatkiírás pontosítása és részletes elemzése}
+\section*{A diplomaterv felépítése}\addcontentsline{toc}{section}{A diplomaterv felépítése}
 %----------------------------------------------------------------------------
-A szakdolgozatban tárgyalt projekt célja egy olyan webalkalmazás, illetve egy ehhez tartozó Android alkalmazás elkészítése, ami az elõzõ szakaszban felsorolt problémákra nyújt korszerû megoldást.
 
-Az elkészült projekt négy részre tagolható: a kliens oldal kéréseit kiszolgáló szerver oldalra, az Android alkalmazásra, a kliens oldal adminisztrációs felületére, illetve a kliens oldal "kliens" felületére, ami a publikus funkciókat biztosítja.
+FELÉPÍTÉS
 
-\subsection*{Az adminisztrációs felület}
-%----------------------------------------------------------------------------
-Az adminisztrációs felület egy olyan webalkalmazás, ami lehetõvé teszi, hogy saját programokat vehessünk fel az adatbázisba, amit az Android alkalmazás használ. Két jogosultságot különböztetünk meg, az admint és a szuperadmint.
 
-Az admin bejelentkezés után megtekintheti a korábban létrehozott eseményeit listanézetben. Az egyes eseményeket törölheti vagy megnyithatja a szerkesztés módot, ahol egy ûrlapon módosíthatja a program adatait, majd elmentheti a változásokat. Létrehozhat új eseményt is, amit a szerkesztéshez hasonlóan egy ûrlap kitöltésével tehet meg. Itt a következõ adatok beállítására van lehetõség:
-
-//TODO list
-esemény neve
-helyszín
-rövid összefoglaló leírás
-hosszú leírás
-kezdés idõpontja
-befejezés idõpontja
-belépõ
-kategória
-honlap URL
-Facebook URL
-
-A szuperadmin mindent megtehet, amit az admin, azzal a különbséggel, hogy õ az összes admin által létrehozott eseményhez hozzáfér, és módosíthatja, törölheti azokat.
-
-\subsection*{A kliens felület}
-%----------------------------------------------------------------------------
-A kliens felület az Android alkalmazás webes megfelelõje. A felhasználó kilistázhatja a programokat, kereshet helyszín, idõpont, programtípus vagy kulcsszó alapján. Adott eseményre kattintva megjelennek a részletes adatok, illetve térképen az esemény helyszíne.
-
-Regisztráció után a felhasználó ?megcsillagozhat?, elmenthet eseményeket, amiket így késõbb könnyen megtalálhat, illetve email értesítést kaphat róluk.
-
-\section*{Elõzmények, létezõ megoldások}\addcontentsline{toc}{section}{Elõzmények, létezõ megoldások}
-%----------------------------------------------------------------------------
 

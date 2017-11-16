@@ -1,0 +1,43 @@
+%----------------------------------------------------------------------------
+\chapter{Feladat specifikáció}
+%----------------------------------------------------------------------------
+
+A szakdolgozatban tárgyalt projekt célja egy olyan webalkalmazás, illetve egy ehhez tartozó Android alkalmazás elkészítése, ami az elõzõ szakaszban felsorolt problémákra nyújt korszerû megoldást.
+
+Az elkészült projekt négy részre tagolható: a kliens oldal kéréseit kiszolgáló szerver oldalra, az Android alkalmazásra, a kliens oldal adminisztrációs felületére, illetve a kliens oldal "kliens" felületére, ami a publikus funkciókat biztosítja.
+
+A programok publikus megjelenítésére a webes kliens alkalmazás, illetve az Android alkalmazás ad lehetõséget: 
+
+%----------------------------------------------------------------------------
+\section{Az Android alkalmazás}
+%----------------------------------------------------------------------------
+Az Android alkalmazás egy olyan androidos programkeresõ alkalmazás, amiben a felhasználó megadhatja, hogy milyen kategóriákban és milyen távolságban érdeklik programok, rendezvények. Ezek alapján lehet listázni a programokat, keresni köztük, megnézni egy részletesebb leírást, illetve megnyitni egy térképes és egy naptáras megjelenítést is. Az események elmenthetõek, ekkor Android értesítés érkezik róluk.
+
+%----------------------------------------------------------------------------
+\section{A kliens felület}
+%----------------------------------------------------------------------------
+A kliens felület az Android alkalmazás webes megfelelõje. A felhasználó kilistázhatja a programokat, kereshet helyszín, idõpont, programtípus vagy kulcsszó alapján. Adott eseményre kattintva megjelennek a részletes adatok, illetve térképen az esemény helyszíne.
+
+Regisztráció után a felhasználó "megcsillagozhat", elmenthet eseményeket, amiket így késõbb könnyen megtalálhat, illetve email értesítést kaphat róluk.
+
+
+%----------------------------------------------------------------------------
+\section{Az adminisztrációs felület}
+%----------------------------------------------------------------------------
+Az elkészített alkalmazáshoz tartozik egy adminisztratív felület, ahol az arra jogosult programszervezõk létrehozhatnak saját  eseményeket, majd szerkeszthetik, törölhetik azokat. A webalkalmazással felvett események bekerülnek az adatbázisba, amit a webes kliens felület és az Android alkalmazás használ. Az adminisztratív felületen két jogosultságot különböztetünk meg, az admint és a szuperadmint.
+
+Az admin bejelentkezés után megtekintheti a korábban létrehozott eseményeit listanézetben. Az egyes eseményeket törölheti vagy megnyithatja a szerkesztés módot, ahol egy ûrlapon módosíthatja a program adatait, majd elmentheti a változásokat. Létrehozhat új eseményt is, amit a szerkesztéshez hasonlóan egy ûrlap kitöltésével tehet meg. Itt a következõ adatok beállítására van lehetõség:
+
+//TODO list
+esemény neve
+helyszín
+rövid összefoglaló leírás
+hosszú leírás
+kezdés idõpontja
+befejezés idõpontja
+belépõ
+kategória
+honlap URL
+Facebook URL
+
+A szuperadmin mindent megtehet, amit az admin, azzal a különbséggel, hogy õ az összes admin által létrehozott eseményhez hozzáfér, és módosíthatja, törölheti azokat.
