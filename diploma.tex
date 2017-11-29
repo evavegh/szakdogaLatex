@@ -12,6 +12,7 @@
 \usepackage{graphics}
 \usepackage{epsfig}
 \usepackage{listings}
+\usepackage{enumitem}
 \usepackage{color}
 %\usepackage{fancyhdr}
 \usepackage{lastpage}
@@ -30,6 +31,9 @@
 \newcommand{\vikcim}{Eseménykeresõ webalkalmazás fejlesztése\break Spring, Android és Angular\break felhasználásával}
 \newcommand{\viktanszek}{Automatizálási és Alkalmazott Informatikai Tanszék}
 \newcommand{\vikdoktipus}{Szakdolgozat}
+
+\renewcommand{\descriptionlabel}[1]
+{\hspace\labelsep\normalfont\itshape#1}
 
 %--------------------------------------------------------------------------------------
 % Page layout setup
@@ -142,31 +146,31 @@ aboveskip=10pt}
 %--------------------------------------------------------------------------------------
 \begin{document}
 \singlespacing
-\include{guideline}
-\include{project}
+%\include{guideline}
+%\include{project}
 
 \pagenumbering{arabic}
 \onehalfspacing
-\include{titlepage}
-\tableofcontents\vfill
-\include{declaration}
-\include{abstract}
-\include{introduction}
+%\include{titlepage}
+%\tableofcontents\vfill
+%\include{declaration}
+%\include{abstract}
+%\include{introduction}
 \include{chapter1_feladatSpecifikacio}
 \include{chapter2_technologiak}
-\include{chapter1}
-\include{chapter2}
-\include{chapter3}
-\include{acknowledgement}
+%\include{chapter1}
+%\include{chapter2}
+%\include{chapter3}
+%\include{acknowledgement}
 
 %\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
 %\listoftables\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
 
-\bibliography{mybib}
-\addcontentsline{toc}{chapter}{Irodalomjegyzék}
+%\bibliography{mybib}
+%\addcontentsline{toc}{chapter}{Irodalomjegyzék}
 \bibliographystyle{plain}
 
-\include{appendices}
+%\include{appendices}
 
 \label{page:last}
 \end{document}

@@ -16,7 +16,7 @@ Az Android alkalmazás egy olyan androidos programkeresõ alkalmazás, amiben a fel
 %----------------------------------------------------------------------------
 \section{A kliens felület}
 %----------------------------------------------------------------------------
-A kliens felület az Android alkalmazás webes megfelelõje. A felhasználó kilistázhatja a programokat, kereshet helyszín, idõpont, programtípus vagy kulcsszó alapján. Adott eseményre kattintva megjelennek a részletes adatok, illetve térképen az esemény helyszíne.
+A kliens felület az Android alkalmazás webes megfelelõje. A felhasználó listázhatja a programokat, kereshet helyszín, idõpont, programtípus vagy kulcsszó alapján. Adott eseményre kattintva megjelennek a részletes adatok, illetve térképen az esemény helyszíne.
 
 Regisztráció után a felhasználó "megcsillagozhat", elmenthet eseményeket, amiket így késõbb könnyen megtalálhat, illetve email értesítést kaphat róluk.
 
@@ -28,16 +28,119 @@ Az elkészített alkalmazáshoz tartozik egy adminisztratív felület, ahol az arra j
 
 Az admin bejelentkezés után megtekintheti a korábban létrehozott eseményeit listanézetben. Az egyes eseményeket törölheti vagy megnyithatja a szerkesztés módot, ahol egy ûrlapon módosíthatja a program adatait, majd elmentheti a változásokat. Létrehozhat új eseményt is, amit a szerkesztéshez hasonlóan egy ûrlap kitöltésével tehet meg. Itt a következõ adatok beállítására van lehetõség:
 
-//TODO list
-esemény neve
-helyszín
-rövid összefoglaló leírás
-hosszú leírás
-kezdés idõpontja
-befejezés idõpontja
-belépõ
-kategória
-honlap URL
-Facebook URL
+\begin{itemize}[itemsep=0mm]
+	\item esemény neve
+	\item helyszín
+	\item rövid összefoglaló leírás
+	\item részletes leírás
+	\item kezdés idõpontja
+	\item befejezés idõpontja
+	\item belépõ
+	\item kategória
+	\item honlap URL
+	\item Facebook URL
+\end{itemize}
 
 A szuperadmin mindent megtehet, amit az admin, azzal a különbséggel, hogy õ az összes admin által létrehozott eseményhez hozzáfér, és módosíthatja, törölheti azokat.
+
+%----------------------------------------------------------------------------
+\section{Use case}
+%----------------------------------------------------------------------------
+A ~\ref{fig:usecase}.~ábra összegzi a különbözõ szerepkörök use case-eit. A be nem jelentkezett felhasználó az anonim felhasználónak felel meg, a regisztráció után belépett egyszerû felhasználó Regisztrált felhasználónak. A hirdetõk adminisztrátor szerepkört kapnak, míg az üzemeltetõ a szuperadminnak felel meg. Megkülönböztetjük még az androidos felhasználót bejelentkezéstõl függetlenül.
+
+\subsection{Az egyes use case-ek részletes leírásai}
+
+\begin{itemize}[label={}]
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] események listázása
+		\item[Leírás:] A felhasználó listázhatja az elérhetõ eseményeket, ekkor az események néhány fontosabb tulajdonsága jelenik meg.
+		\item[Szereplõk:] Anonim, Regisztrált, Androidos, Hirdetõ, Üzemeltetõ
+		\item[Megkötések:] Csak jövõbeli események jelennek meg.
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] események keresése
+		\item[Leírás:]  A felhasználó különbözõ keresési feltételek szerint kereshet az események között, úgy mint dátum intervallum, helyszín, névbeli egyezés, kategória.
+		\item[Szereplõk:] Anonim, Regisztrált, Androidos, Hirdetõ, Üzemeltetõ
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] esemény részletes nézetének megnyitása
+		\item[Leírás:] A felhasználó megtekintheti egy adott esemény részletes nézetét, hogy bõvebb információhoz jusson az esemény részleteit illetõen.
+		\item[Szereplõk:] Anonim, Regisztrált, Androidos
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] térképes nézet megnyitása
+		\item[Leírás:] A felhasználó megnyithatja a térképes nézetet, amin az egyes eseményekhez rendelt markerek jelennek meg, rájuk kattintva az eseményhez tartozó infobox jön elõ.
+		\item[Szereplõk:] Anonim, Regisztrált, Androidos
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] naptáras nézet megnyitása
+		\item[Leírás:] A felhasználó megnyithatja a naptáras nézetet, amin az egyes napokra kattintva az aznap történõ eseményeket listázza a program.
+		\item[Szereplõk:] Androidos
+		\item[Megkötések:] Csak jövõbeli dátumokat lehet kiválasztani.
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] események mentése
+		\item[Leírás:] A felhasználó menthet eseményeket, amikrõl a webes felületen email értesítés, az Android alkalmazásban Android értesítés érkezik az esemény kezdete elõtt 5 órával.
+		\item[Szereplõk:] Regisztrált, Androidos
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] feliratkozás hirdetõre
+		\item[Leírás:] A felhasználó feliratkozhat hirdetõkre, ekkor a hirdetõ által közzétett új eseményekrõl a webes felületen email értesítés, az Android alkalmazásban Android értesítés érkezik.
+		\item[Szereplõk:] Regisztrált, Androidos
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] feliratkozás helyszínre
+		\item[Leírás:] A felhasználó feliratkozhat helyszínre, ekkor a helyszínen közzétett új eseményekrõl a webes felületen email értesítés, az Android alkalmazásban Android értesítés érkezik.
+		\item[Szereplõk:] Regisztrált, Androidos
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] adatok módosítása
+		\item[Leírás:] A felhasználó módosíthatja az email címét, jelszavát és az értesítési beállításokat.
+		\item[Szereplõk:] Regisztrált, Androidos, Hirdetõ, Üzemeltetõ
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] témaválasztás
+		\item[Leírás:] A felhasználó választhat világos és sötét téma közül, ekkor az alkalmazás színei, az ikonok és stílusok ennek megfelelõen módosulnak.
+		\item[Szereplõk:] Androidos
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] regisztráció
+		\item[Leírás:] A felhasználó létrehozhat egy új felhasználói fiókot megfelelõ fióknév, email cím és jelszó megadásával.
+		\item[Szereplõk:] Anonim
+		\item[Megkötések:] -
+	\end{description}
+	\item
+	\begin{description}[itemsep=0mm]
+		\item[\textbf{Use case:}] bejelentkezés, kijelentkezés
+		\item[Leírás:] Az Anonim felhasználó bejelentkezhet, a bejelentkezett felhasználó kijelentkezhet az alkalmazásból.
+		\item[Szereplõk:] Anonim, Regisztrált, Hirdetõ, Üzemeltetõ
+		\item[Megkötések:] -
+	\end{description}
+\end{itemize}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]{figures/usecase.jpg}
+	\caption{Az alkalmazás szerepköreinek összevont use case diagramja}
+	\label{fig:usecase}
+\end{figure}
