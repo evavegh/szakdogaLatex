@@ -1,0 +1,204 @@
+%----------------------------------------------------------------------------
+\chapter{Tervezés}\label{tervezes}
+%----------------------------------------------------------------------------
+
+A feladat specifikációban leírtam, hogy a projekt egy webalkalmazásból és egy Android alkalmazásból áll. A szakdolgozat elkezdésekor az Android alkalmazás már részben kész volt, a késõbb elkészült szerver nélkül is megállta a helyét: az adatokat egy külsõ REST API-n keresztül (http://api.eventful.com) kapta, és ezekkel dolgozott. Miután megszületett az igény, hogy saját eseményekkel lehessen feltölteni, az elkészítendõ back-end alkalmazás az Android alkalmazás igényeihez igazodott (pl. modell osztályok felépítése), és ez nagyban meghatározta a back-end alkalmazás felépítését.
+
+%----------------------------------------------------------------------------
+\section{Architektúra}
+%----------------------------------------------------------------------------
+A modern webes alkalmazások tipikusan többrétegû architektúrára építenek. Minimum három réteggel rendelkeznek: megjelenítés, service (üzleti logika) és repository réteg (adatkezelés).
+
+Az alkalmazás rétegekre bontása lehetõvé teszi az egyes rétegek egymástól függetlenül történõ fejlesztését, sõt, akár teljes cseréjét is, mert a rétegek csak egymás interfészeitõl függenek. Így egy könnyebben fejleszthetõ és karbantartható programot kapunk, ahol a rendszer különbözõ szintjei egymástól függetlenül tesztelhetõk.
+
+A projekt architektúráját ennek megfelelõen terveztem kialakítani:
+\begin{description}[itemsep=0mm]
+	\item[Adatréteg:] Az adatok tartós tárolásáért felelõs réteg: magában foglalja a modellt, az adatelérést és logikailag magát az adatbázist, bár gyakran az adatbázis önálló, külsõ rétegként jelenik meg. A modellben találhatóak az entitások, amik a tárolandó adatokat reprezentálják. Az adatelérés részei a Repository interfészek, amelyek az elemi adatelérési mûveletekhez (entitás létrehozása, törlése, módosítása, keresése) szükséges metódusokat deklarálják.
+	\item[Service:] A Service rétegben található osztályok az üzleti logikát tartalmazzák, ezek futtatják az üzleti folyamatokat. A Repository interfészeket felhasználva egy-egy használati esetet valósítanak meg, és kikényszerítik a több entitást is érintõ üzleti szabályokat.
+	\item[Megjelenítés:] A megjelenítési réteg feladata az adatok valamilyen módon történõ megjelenítése, a felhasználói események kezelése az üzleti logikai réteg segítségével.
+\end{description}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/retegek.png}
+	\caption{A projekt felépítése}
+	\label{fig:retegek}
+\end{figure}
+
+%----------------------------------------------------------------------------
+\section{Adatréteg}
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+\subsection{Az entitások}
+%----------------------------------------------------------------------------
+Az adatokat reprezentáló entitások a projekt model csomagjában kapnak helyet. Az egyszerû POJO (plain old Java object) osztályok megírása után az entitások megfelelõ JPA annotációkkal történõ ellátása biztosítja, hogy automatikusan megtörténjen az O -- R leképezés.
+
+A model csomagban található osztályok csak adattárolásra valók: nincs igazán viselkedésük, egyszerû konstruktorokkal, getter, setter metódusokkal rendelkeznek, illetve add\dots(), remove\dots() metódusokkal, ahol kollekció kezelésére van szükség. Ezen felül a felüldefiniált hashCode(), equals(), toString() metódusok fordulnak elõ. Éppen ezért ezeket nem fogom jobban részletezni.
+
+Meg kell említenem, hogy a model csomagban több enum is helyet kap, amik nem számítanak entitásnak, hiszen nem képzõdnek le adatbázis táblákra, de az entitásokkal együtt fogom felsorolni õket, mert logikailag ide tartoznak.
+
+Az osztályok tagváltozói mind beszédes nevet kapnak, amibõl egyértelmûen kiderül milyen célt szolgálnak (lásd ~\ref{fig:entitasok_uml}.~ ábra), ezért a következõkben csak az osztályok funkcióját és kapcsolatait részletezem:
+	
+\begin{description}[itemsep=0mm]
+	\item[\textbf{User:}] Az alkalmazásba regisztrált felhasználók adatait tárolja. Rendelkezik névvel, jelszóval, email címmel és a regisztráció idejével.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[Role {[0..*]}:] Ezeket a szerepet birtokolja, ez határozza meg, milyen akciók végrehajtására van jogosultsága.
+		\item[UserSettings {[1]}:] Az általa mentett fiókbeállítások.
+		\item[Location {[0..*]}:] A helyszínek, amikre feliratkozott.		
+		\item[User {[0..*]}:] A hirdetõk, akikre feliratkozott.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{Role:}] Az alkalmazásban a felhasználók által felvehetõ szerepeket tárolja.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[User {[0..*]}:] Azok a felhasználók, akik ezzel a szereppel rendelkeznek.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{UserSettings:}] A felhasználók által mentett fiókbeállításokat tároló osztály.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[User {[1]}:] Az a felhasználó, akihez a beállítások tartoznak.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{Event:}] Az eseményt reprezentáló osztály.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[User {[0..*]}:] Kétféle kapcsolatban állhat felhasználóval: az egyik, ha ez a felhasználó hozta létre, a másik, ha a felhasználó elmentette ezt az eseményt.
+		\item[Price {[3]}:] Az eseményhez tartozó belépõ árak: normál, diák és nyugdíjas jegyárak.
+		\item[Location {[1]}:] Az esemény helyszíne.
+		\item[EventType {[1..*]}:] Az eseménytípusok, amikbe az esemény besorolható.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{Price:}] Egy belépõjegy árat reprezentáló osztály, amelyet az összeg, a pénznem és belépõ típus határoz meg. 
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[Event {[1]}:] Az esemény, amihez a belépõjegy tartozik.
+		\item[Currency {[1]}:] A belépõ pénzneme (például Ft, \$, \euro).
+		\item[PriceType {[1]}:] A belépõ típusa (normál, diák vagy nyugdíjas jegy).
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{Currency:}] Egy pénznemet reprezentáló enum.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[Price {[0..*]}:] A pénznemhez tartozó belépõ.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{PriceType:}] Egy belépõjegy típust reprezentáló enum.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[Price {[0..*]}:] A jegytípushoz tartozó belépõ.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{EventType:}] Egy eseménytípus reprezentálására alkalmas enum.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[Event {[0..*]}:] Azok az események, amik besorolhatók ebbe a típusba.
+	\end{description}
+\end{description}
+\bigskip
+
+\begin{description}[itemsep=0mm]
+	\item[\textbf{Location:}] Egy helyszínt reprezentáló osztály.
+	\item[Kapcsolatai:]
+	\begin{description}[itemsep=0mm]\item[]
+		\item[Event {[0..*]}:] Azok az események, amelyek itt zajlanak le.
+		\item[User {[0..*]}:] Azok a felhasználók, akik feliratkoztak erre a helyszínre.
+	\end{description}
+\end{description}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{figures/entitasok_uml.jpg}
+	\caption{Az alkalmazás entitásai és kapcsolataik}
+	\label{fig:entitasok_uml}
+\end{figure}
+
+%----------------------------------------------------------------------------
+\subsection{Az adatelérés}
+%----------------------------------------------------------------------------
+Az adatelérést az egyes entitásokhoz tartozó Repository interfészek biztosítják a Spring Data segítségével. Nem minden entitáshoz szükséges Repository-t létrehozni, csak azokhoz, amit közvetlenül (azaz nem más entitások kapcsolatain keresztül) szeretnénk elérni az adatbázisból. Ilyen az Event, a User és a Location entitás.
+
+%----------------------------------------------------------------------------
+\subsubsection{LocationRepository}
+
+A LocationRepository-ban nincs szükség egyedi metódusok deklarálására, elég a Spring Data által alapból implementált CRUD (create, read, update, delete) mûveleteket megvalósító metódusok használata.
+
+%----------------------------------------------------------------------------
+\subsubsection{UserRepository}
+
+A UserRepository-ban a defaulton kívül további metódusokra van szükség. Ezek egyszerûbb lekérdezéseket valósítanak meg, ezért könnyen generálhatók névkonvenciókból:
+
+\begin{description}
+	\item [findByEmail(String email): User] Visszatér a paraméterben kapott emaillel rendelkezõ felhasználóval.
+	\item [findByName(String userName): User] Visszatér a paraméterben kapott névvel rendelkezõ felhasználóval.
+\end{description}
+
+%----------------------------------------------------------------------------
+\subsubsection{EventRepository}
+
+Az eseményeken végzett mûveletekhez sokkal több és összetettebb lekérdezésre van szükség, mert több szempont szerint is szeretnénk keresni köztük és gyakran egyszerre több feltételt is ki kell elégítenie a keresésnek.
+
+\begin{itemize}
+	\item Névkonvenciókból generált metódusok:
+	\begin{description}
+		\item [findByTypes(List<EventType> type): List<Event>] Visszatér a kapott típussal rendelkezõ eseményekkel.
+		\item [findByStartsAtAfter(Date date: List<Event>)] Visszatér a kapott dátum után zajló eseményekkel.
+		\item [findByEndsAtBefore(Date date: List<Event>)] Visszatér a kapott dátum elõtt végzõdõ eseményekkel.
+		\item [findByStartsAtBetween(Date starts, Date ends): List<Event>] Visszatér a két dátum között kezdõdõ eseményekkel.
+		\item [findByLocationCountry(String country): List<Event>] Visszatér a kapott országban zajló eseményekkel.
+		\item [findByLocationCity(String city) : List<Event>] Visszatér a kapott városban zajló eseményekkel.
+		\item [findByNameContaining(String phrase) : List<Event>] Visszatér a kapott szöveggel akár részegesen megegyezõ nevû eseményekkel.
+		\item [findByCreatedBy(User user) : List<Event>] Visszatér a kapott felhasználó által létrehozott eseményekkel.
+	\end{description}
+	\item Egyedi metódusok:
+	\begin{description}
+		\item[\protect{\parbox[t]{14cm}{findByTypeLocationKeyword(List<EventType> types, Location location,\\String phrase): List<Event>}}] Névegyezés, helyszín és eseménytípus egyezése alapján ad vissza eseményeket.
+	\end{description}
+	
+	Ahhoz, hogy egyszerre több szûrési feltétel alapján tudjunk keresni, egyszerûbb saját lekérdezéseket írni egy saját EventRepositoryImpl nevû osztályban, ami megvalósítja az EventRepositoryCustom interfészt.
+	
+	A lekérdezés implementálását a Criteria API, illetve a Querydsl használatával végzem. A kettõ hasonlóan mûködik: az entitásokhoz metamodel osztályokat generálnak, amikre hivatkozhatunk a lekérdezésben, és dinamikusan érhetjük el az entitások attribútumait. Pont a hasonlóságuk miatt döntöttem úgy, hogy mindkettõt kipróbálom, és összehasonlítom, hogy el tudjam dönteni, melyiket célszerûbb használni a projektben.
+\end{itemize}
+
+
+%----------------------------------------------------------------------------
+\subsection{Az adatbázis}
+%----------------------------------------------------------------------------
+Az alkalmazás adatainak tárolásához a MySQL adatbázis-kezelõt választottam, fõképp azért mert ingyenes, könnyû használni, és már volt vele tapasztalatom.
+
+Az adatbázis létrehozása után be kell konfigurálni a projektben az adatbáziskapcsolatot. A Springnek köszönhetõen ez nagyon egyszerûen elvégezhetõ, csak az application.yml fájlban kell beállítani néhány tulajdonságot.
+
+Az adatbázis adatokkal való feltöltéséhez érdemes írni egy inicializáló szkriptet data.sql néven, amit a megfelelõ könyvtárba való helyezése után (a projekt resources könyvtárába) a Spring automatikusan lefuttat az alkalmazás indításakor, amennyiben ezt szeretnénk. Ezt szintén az application.yml fájlban tudjuk beállítani egyetlen érték átírásával. Ez hasznos lehet a fejlesztés során, például ha hibás adatok kerülnek az adatbázisba, és nem szeretnénk azokat egyesével kijavítani, akkor nagyon gyorsan újrainicializálhatjuk az adatbázist.
+
+%----------------------------------------------------------------------------
+\section{Üzleti logikai réteg}
+%----------------------------------------------------------------------------
+
+
+
+%----------------------------------------------------------------------------
+\section{Megjelenítés}
+%----------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 
 A szakdolgozatban tárgyalt projekt célja egy olyan webalkalmazás, illetve egy ehhez tartozó Android alkalmazás elkészítése, ami az elõzõ szakaszban felsorolt problémákra nyújt korszerû megoldást.
 
-Az elkészült projekt négy részre tagolható: a kliens oldal kéréseit kiszolgáló szerver oldalra, az Android alkalmazásra, a kliens oldal adminisztrációs felületére, illetve a kliens oldal ,,kliens'' felületére, ami a publikus funkciókat biztosítja.
+Az elkészült projekt két részre tagolható: egy webalkalmazásból és egy Android alkalmazásból. A webalkalmazás tovább bontható a kliens oldal kéréseit kiszolgáló szerver oldalra és a két megjelenítési felületre: a kliens oldal adminisztrációs felületére, illetve a kliens oldal ,,kliens'' felületére, ami a publikus funkciókat biztosítja.
 
 A programok publikus megjelenítésére a webes kliens alkalmazás, illetve az Android alkalmazás ad lehetõséget: 
 
@@ -14,15 +14,23 @@ A programok publikus megjelenítésére a webes kliens alkalmazás, illetve az Andro
 Az Android alkalmazás egy olyan androidos programkeresõ alkalmazás, amiben a felhasználó megadhatja, hogy milyen kategóriákban és milyen távolságban érdeklik programok, rendezvények. Ezek alapján lehet listázni a programokat, keresni köztük, megnézni egy részletesebb leírást, illetve megnyitni egy térképes és egy naptáras megjelenítést is. Az események elmenthetõek, ekkor Android értesítés érkezik róluk.
 
 %----------------------------------------------------------------------------
-\section{A kliens felület}
+\section{A webalkalmazás}
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+\subsection{A szerver oldal}
+%----------------------------------------------------------------------------
+A szerver oldal tartalmazza az üzleti logikát, ez szolgálja ki a kliens kéréseit: a webes kliens és az Android kliens kéréseit egyaránt.
+
+%----------------------------------------------------------------------------
+\subsection{A kliens felület}
 %----------------------------------------------------------------------------
 A kliens felület az Android alkalmazás webes megfelelõje. A felhasználó listázhatja a programokat, kereshet helyszín, idõpont, programtípus vagy kulcsszó alapján. Adott eseményre kattintva megjelennek a részletes adatok, illetve térképen az esemény helyszíne.
 
 Regisztráció után a felhasználó ,,megcsillagozhat'', elmenthet eseményeket, amiket így késõbb könnyen megtalálhat, illetve email értesítést kaphat róluk.
 
-
 %----------------------------------------------------------------------------
-\section{Az adminisztrációs felület}
+\subsection{Az adminisztrációs felület}
 %----------------------------------------------------------------------------
 Az elkészített alkalmazáshoz tartozik egy adminisztratív felület, ahol az arra jogosult programszervezõk létrehozhatnak saját  eseményeket, majd szerkeszthetik, törölhetik azokat. A webalkalmazással felvett események bekerülnek az adatbázisba, amit a webes kliens felület és az Android alkalmazás használ. Az adminisztratív felületen két jogosultságot különböztetünk meg, az admint és a szuperadmint.
 

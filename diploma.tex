@@ -10,8 +10,10 @@
 \usepackage{enumerate}
 \usepackage[thmmarks]{ntheorem}
 \usepackage{graphics}
+\usepackage{float}
 \usepackage{epsfig}
 \usepackage{listings}
+\usepackage{eurosym}
 \usepackage{enumitem}
 \usepackage{color}
 %\usepackage{fancyhdr}
@@ -119,9 +121,11 @@
 	titlepage,%
 	declaration,%
 	abstract,%
-	introduction,%
-	chapter1_feladatSpecifikacio,%
-	chapter2_technologiak,%
+	chapter1_introduction,%
+	chapter2_feladatSpecifikacio,%
+	chapter3_technologiak,%
+	chapter4_tervezes,%
+	chapter5_megvalositas,%
 	chapter1,%
 	chapter2,%
 	chapter3,%
@@ -145,25 +149,28 @@ aboveskip=10pt}
 % Table of contents and the main text
 %--------------------------------------------------------------------------------------
 \begin{document}
+\sloppy
 \singlespacing
 %\include{guideline}
 %\include{project}
 
 \pagenumbering{arabic}
 \onehalfspacing
-%\include{titlepage}
-%\tableofcontents\vfill
+\include{titlepage}
+\tableofcontents\vfill
 %\include{declaration}
 %\include{abstract}
-%\include{introduction}
-\include{chapter1_feladatSpecifikacio}
-\include{chapter2_technologiak}
+\include{chapter1_introduction}
+\include{chapter2_feladatSpecifikacio}
+\include{chapter3_technologiak}
+\include{chapter4_tervezes}
+\include{chapter5_megvalositas}
 %\include{chapter1}
 %\include{chapter2}
 %\include{chapter3}
 %\include{acknowledgement}
 
-%\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
+\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
 %\listoftables\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
 
 %\bibliography{mybib}
